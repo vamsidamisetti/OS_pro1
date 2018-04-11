@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<semaphore.h>
 
-int c=0,a[3];
+int c=0,a1=0,a2=0,a3=0;
 sem_t x;
 struct sharedtable
 {
@@ -32,7 +32,7 @@ else
 
 {
 printf("1st student completed the task\n");
-a[0]=1;
+a1=1;
 c++;
 s->pen=0;
 s->qp=0;
@@ -58,7 +58,7 @@ if(s->pen==0||s->paper==0||s->qp==0)
 else
 {
 printf("2nd student completed the task\n");
-a[1]=1;
+a2=1;
 c++;
 s->qp=0;
 s->paper=0;
@@ -83,7 +83,7 @@ if(s->pen==0||s->paper==0||s->qp==0)
 else
 {
 printf("3rd student completed the task\n");
-a[2]=1;
+a3=1;
 c++;
 s->qp=0;
 s->pen=0;
@@ -94,7 +94,7 @@ sem_post(&x);
 
 }
 
-int main()
+void main()
 
 {
 
@@ -169,19 +169,25 @@ default:
 exit(0);
 
 }
+if(a1 != 1)
 pthread_create(&t1,NULL,S1,&s);
+if(a2 != 1)
 pthread_create(&t2,NULL,S2,&s);
+if(a3 != 1)
 pthread_create(&t3,NULL,S3,&s);
-if(a[0]!=1)
+
+if(a1 != 1)
 pthread_join(t1,NULL);
-if(a[1]!=1)
+
+if(a2 != 1)
 pthread_join(t2,NULL);
-if(a[2]!=1)
+
+if(a3 != 1)
 pthread_join(t3,NULL);
 
 
 }
 
 printf("All students completed the task!!!");
-return 0;
+
 }
